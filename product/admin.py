@@ -1,19 +1,25 @@
 from django.contrib import admin
-from . import models
+from .models import Product, Brand, Category, ProductImages
 
 
 class ProductImagesInline(admin.TabularInline):
-    model = models.ProductImages
+    model = ProductImages
     extra = 3
 
 
 class ProductAdmin(admin.ModelAdmin):
-    inlines = ProductImagesInline
+
+    inlines = (ProductImagesInline,)
+
+    fieldsets = [
+        (None, {'fields': [y.name for y in Product._meta.fields if y.name not in ('id', 'image', 'created')]}),
+        ('Main Image', {'fields': ['image']})
+    ]
 
     list_filter = ['created']
-    search_fields = ['category', 'brand']
+    search_fields = ['category', 'brand', 'name']
 
 
-admin.site.register(models.Product, ProductAdmin)
-admin.site.register(models.Category)
-admin.site.register(models.Brand)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(Category)
+admin.site.register(Brand)

@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Q, Count
 from .models import Product, ProductImages, Category
-from django.db.models import Q
+
 
 
 def home(request):
